@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jxmapviewer2-2.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/mysql-connector-j-9.6.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javafx.base"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

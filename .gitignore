@@ -1,0 +1,22 @@
+# ===== IntelliJ IDEA =====
+.idea/
+*.iml
+*.iws
+*.ipr
+*.eml
+*.userlibraries
+
+# ===== Konpilazio fitxategiak =====
+out/
+target/
+bin/
+
+# ===== Liburutegi lokalak (OSO GARRANTZITSUA) =====
+lib/
+
+# ===== Sistema fitxategiak =====
+.DS_Store
+Thumbs.db
+
+# ===== Log fitxategiak =====
+*.log

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="jxmapviewer2-2.6" value="project"/>
+		<level name="mysql-connector-j-9.6.0" value="project"/>
+		<level name="javafx.base" value="project"/>
+	</levels>
+</component>
