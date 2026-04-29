@@ -34,6 +34,10 @@ import pakag.utilak.PasahitzaSortzailea;
 
 import pakag.datuak.BezeroaDAO;
 import pakag.eredua.Bezeroa;
+
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableRow;
+import java.util.List;
 /**
  * pakAG proiektuaren kudeatzailearen aplikazio nagusia.
  * Klase honek JavaFX interfazea abiarazten du eta menu lateral baten bidez
@@ -702,8 +706,37 @@ public class PakAGAplikazioa extends Application {
         Label titulua = new Label("Trazak");
         titulua.getStyleClass().add("section-title");
 
+        Label infoLabel = new Label();
+        Label warnLabel = new Label();
+        Label errorLabel = new Label();
+
+        infoLabel.getStyleClass().add("traza-info");
+        warnLabel.getStyleClass().add("traza-warn");
+        errorLabel.getStyleClass().add("traza-error");
+
+        ComboBox<String> filtroa = new ComboBox<>();
+        filtroa.getItems().addAll("GUZTIAK", "INFO", "WARN", "ERROR");
+        filtroa.setValue("GUZTIAK");
+
+        Button kargatuBtn = new Button("Refreskatu");
+        kargatuBtn.getStyleClass().add("btn-primary");
+
+        HBox estatistikak = new HBox(infoLabel, warnLabel, errorLabel);
+        estatistikak.getStyleClass().add("traza-estatistikak");
+
+        HBox iragazkia = new HBox(new Label("Iragazi:"), filtroa, kargatuBtn);
+        iragazkia.getStyleClass().add("traza-iragazkia");
+
+        BorderPane goikoBarra = new BorderPane();
+        goikoBarra.setLeft(estatistikak);
+        goikoBarra.setRight(iragazkia);
+        goikoBarra.getStyleClass().add("traza-goiko-barra");
+
         TableColumn<Traza, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("idT"));
+
+        TableColumn<Traza, String> mailaCol = new TableColumn<>("Maila");
+        mailaCol.setCellValueFactory(new PropertyValueFactory<>("maila"));
 
         TableColumn<Traza, java.time.LocalDateTime> dataCol = new TableColumn<>("Data/Hora");
         dataCol.setCellValueFactory(new PropertyValueFactory<>("dataHora"));
@@ -715,16 +748,66 @@ public class PakAGAplikazioa extends Application {
         deskribapenaCol.setCellValueFactory(new PropertyValueFactory<>("deskribapena"));
 
         trazaTaula.getColumns().clear();
-        trazaTaula.getColumns().addAll(idCol, dataCol, ekintzaCol, deskribapenaCol);
+        trazaTaula.getColumns().addAll(idCol, mailaCol, dataCol, ekintzaCol, deskribapenaCol);
         trazaTaula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        Button kargatuBtn = new Button("Kargatu");
-        kargatuBtn.getStyleClass().add("btn-primary");
-        kargatuBtn.setOnAction(e -> trazaTaulaKargatu());
+        trazaTaula.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Traza traza, boolean empty) {
+                super.updateItem(traza, empty);
 
-        trazaTaulaKargatu();
+                getStyleClass().removeAll("traza-row-info", "traza-row-warn", "traza-row-error");
 
-        VBox panela = new VBox(titulua, kargatuBtn, trazaTaula);
+                if (empty || traza == null) {
+                    return;
+                }
+
+                switch (traza.getMaila()) {
+                    case "ERROR" -> getStyleClass().add("traza-row-error");
+                    case "WARN" -> getStyleClass().add("traza-row-warn");
+                    default -> getStyleClass().add("traza-row-info");
+                }
+            }
+        });
+
+        Runnable trazakKargatu = () -> {
+            List<Traza> guztiak = trazaDAO.lortuGuztiak();
+
+            long infoKop = guztiak.stream()
+                    .filter(t -> t.getMaila().equals("INFO"))
+                    .count();
+
+            long warnKop = guztiak.stream()
+                    .filter(t -> t.getMaila().equals("WARN"))
+                    .count();
+
+            long errorKop = guztiak.stream()
+                    .filter(t -> t.getMaila().equals("ERROR"))
+                    .count();
+
+            infoLabel.setText("INFO: " + infoKop);
+            warnLabel.setText("WARN: " + warnKop);
+            errorLabel.setText("ERROR: " + errorKop);
+
+            String aukeratua = filtroa.getValue();
+
+            if ("GUZTIAK".equals(aukeratua)) {
+                trazaTaula.getItems().setAll(guztiak);
+            } else {
+                trazaTaula.getItems().setAll(
+                        guztiak.stream()
+                                .filter(t -> t.getMaila().equals(aukeratua))
+                                .toList()
+                );
+            }
+        };
+
+        filtroa.setOnAction(e -> trazakKargatu.run());
+        kargatuBtn.setOnAction(e -> trazakKargatu.run());
+
+        trazakKargatu.run();
+
+        VBox panela = new VBox(titulua, goikoBarra, trazaTaula);
         panela.getStyleClass().add("content-card");
         panela.getStyleClass().add("crud-panela");
 

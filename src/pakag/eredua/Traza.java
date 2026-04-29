@@ -2,6 +2,10 @@ package pakag.eredua;
 
 import java.time.LocalDateTime;
 
+/**
+ * Traza klaseak aplikazioan gertatutako ekintzen erregistroa adierazten du.
+ * Erregistro bakoitzak data/ordua, ekintza mota eta deskribapena gordetzen ditu.
+ */
 public class Traza {
 
     private int idT;
@@ -49,5 +53,30 @@ public class Traza {
 
     public void setDeskribapena(String deskribapena) {
         this.deskribapena = deskribapena;
+    }
+
+    /**
+     * Trazaren maila kalkulatzen du ekintzaren arabera.
+     *
+     * @return INFO, WARN edo ERROR
+     */
+    public String getMaila() {
+        if (ekintza == null || ekintza.isBlank()) {
+            return "INFO";
+        }
+
+        String ekintzaMaiuskulaz = ekintza.toUpperCase();
+
+        if (ekintzaMaiuskulaz.startsWith("ERROR")) {
+            return "ERROR";
+        }
+
+        if (ekintzaMaiuskulaz.startsWith("DELETE")
+                || ekintzaMaiuskulaz.startsWith("WARN")
+                || ekintzaMaiuskulaz.contains("EZABATU")) {
+            return "WARN";
+        }
+
+        return "INFO";
     }
 }
