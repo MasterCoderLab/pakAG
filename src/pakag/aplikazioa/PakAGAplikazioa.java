@@ -245,6 +245,11 @@ public class PakAGAplikazioa extends Application {
         azpititulua.setAlignment(Pos.CENTER);
         azpititulua.getStyleClass().add("hasiera-azpititulua");
 
+        VBox testuKutxa = new VBox(8, titulua, azpititulua);
+        testuKutxa.setAlignment(Pos.CENTER);
+        testuKutxa.setMaxWidth(780);
+        testuKutxa.getStyleClass().add("hasiera-testu-kutxa");
+
         // Info kutxa nagusia
         HBox cards = new HBox(20,
                 sortuCard("Paketeak", paketeaDAO.kontatuGuztiak()),
@@ -255,7 +260,7 @@ public class PakAGAplikazioa extends Application {
         cards.setAlignment(Pos.CENTER);
         cards.getStyleClass().add("dashboard-cards");
 
-        VBox edukia = new VBox(20, logoView, titulua, azpititulua, cards);
+        VBox edukia = new VBox(20, logoView, testuKutxa, cards);
         edukia.setAlignment(Pos.CENTER);
         edukia.setMaxWidth(850);
         edukia.setPadding(new Insets(35));
