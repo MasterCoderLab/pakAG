@@ -38,6 +38,15 @@ import pakag.eredua.Bezeroa;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableRow;
 import java.util.List;
+
+import javafx.application.Platform;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+
+
 /**
  * pakAG proiektuaren kudeatzailearen aplikazio nagusia.
  * Klase honek JavaFX interfazea abiarazten du eta menu lateral baten bidez
@@ -732,6 +741,21 @@ public class PakAGAplikazioa extends Application {
         goikoBarra.setRight(iragazkia);
         goikoBarra.getStyleClass().add("traza-goiko-barra");
 
+        CategoryAxis xArdatza = new CategoryAxis();
+        NumberAxis yArdatza = new NumberAxis();
+
+        BarChart<String, Number> barraGrafikoa = new BarChart<>(xArdatza, yArdatza);
+        barraGrafikoa.setLegendVisible(false);
+        barraGrafikoa.setAnimated(false);
+        barraGrafikoa.getStyleClass().add("traza-grafikoa");
+
+        PieChart zirkuluGrafikoa = new PieChart();
+        zirkuluGrafikoa.setAnimated(false);
+        zirkuluGrafikoa.getStyleClass().add("traza-grafikoa");
+
+        HBox grafikoak = new HBox(barraGrafikoa, zirkuluGrafikoa);
+        grafikoak.getStyleClass().add("traza-grafikoak");
+
         TableColumn<Traza, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("idT"));
 
@@ -789,6 +813,46 @@ public class PakAGAplikazioa extends Application {
             warnLabel.setText("WARN: " + warnKop);
             errorLabel.setText("ERROR: " + errorKop);
 
+            XYChart.Data<String, Number> infoBarra = new XYChart.Data<>("INFO", infoKop);
+            XYChart.Data<String, Number> warnBarra = new XYChart.Data<>("WARN", warnKop);
+            XYChart.Data<String, Number> errorBarra = new XYChart.Data<>("ERROR", errorKop);
+
+            XYChart.Series<String, Number> seriea = new XYChart.Series<>();
+            seriea.getData().addAll(infoBarra, warnBarra, errorBarra);
+            barraGrafikoa.getData().setAll(seriea);
+
+            PieChart.Data infoZatia = new PieChart.Data("INFO (" + infoKop + ")", infoKop);
+            PieChart.Data warnZatia = new PieChart.Data("WARN (" + warnKop + ")", warnKop);
+            PieChart.Data errorZatia = new PieChart.Data("ERROR (" + errorKop + ")", errorKop);
+
+            zirkuluGrafikoa.getData().setAll(infoZatia, warnZatia, errorZatia);
+
+            Platform.runLater(() -> {
+                if (infoBarra.getNode() != null) {
+                    infoBarra.getNode().getStyleClass().add("traza-bar-info");
+                }
+
+                if (warnBarra.getNode() != null) {
+                    warnBarra.getNode().getStyleClass().add("traza-bar-warn");
+                }
+
+                if (errorBarra.getNode() != null) {
+                    errorBarra.getNode().getStyleClass().add("traza-bar-error");
+                }
+
+                if (infoZatia.getNode() != null) {
+                    infoZatia.getNode().getStyleClass().add("traza-pie-info");
+                }
+
+                if (warnZatia.getNode() != null) {
+                    warnZatia.getNode().getStyleClass().add("traza-pie-warn");
+                }
+
+                if (errorZatia.getNode() != null) {
+                    errorZatia.getNode().getStyleClass().add("traza-pie-error");
+                }
+            });
+
             String aukeratua = filtroa.getValue();
 
             if ("GUZTIAK".equals(aukeratua)) {
@@ -807,7 +871,7 @@ public class PakAGAplikazioa extends Application {
 
         trazakKargatu.run();
 
-        VBox panela = new VBox(titulua, goikoBarra, trazaTaula);
+        VBox panela = new VBox(titulua, goikoBarra, grafikoak, trazaTaula);
         panela.getStyleClass().add("content-card");
         panela.getStyleClass().add("crud-panela");
 

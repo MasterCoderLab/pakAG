@@ -393,3 +393,115 @@
     -fx-border-width: 1 0 0 0;
 }
 
+/* ===== TRAZAK ===== */
+
+.traza-goiko-barra {
+    -fx-padding: 4 0 8 0;
+}
+
+.traza-estatistikak {
+    -fx-spacing: 22;
+    -fx-alignment: center-left;
+}
+
+.traza-iragazkia {
+    -fx-spacing: 10;
+    -fx-alignment: center-right;
+}
+
+.traza-info {
+    -fx-text-fill: #16a34a;
+    -fx-font-weight: 800;
+    -fx-font-size: 14px;
+}
+
+.traza-warn {
+    -fx-text-fill: #d97706;
+    -fx-font-weight: 800;
+    -fx-font-size: 14px;
+}
+
+.traza-error {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: 800;
+    -fx-font-size: 14px;
+}
+
+.table-row-cell.traza-row-info {
+    -fx-background-color: #dcfce7;
+}
+
+.table-row-cell.traza-row-warn {
+    -fx-background-color: #fef3c7;
+}
+
+.table-row-cell.traza-row-error {
+    -fx-background-color: #fee2e2;
+}
+
+.table-row-cell.traza-row-info:hover,
+.table-row-cell.traza-row-warn:hover,
+.table-row-cell.traza-row-error:hover {
+    -fx-background-color: #e0f2fe;
+}
+
+.table-row-cell.traza-row-info:selected,
+.table-row-cell.traza-row-warn:selected,
+.table-row-cell.traza-row-error:selected {
+    -fx-background-color: #0284c7;
+}
+
+
+/* ===== TRAZEN GRAFIKOAK ===== */
+
+.traza-grafikoak {
+    -fx-spacing: 16;
+    -fx-alignment: center;
+}
+
+.traza-grafikoa {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-pref-height: 220;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.10), 14, 0.16, 0, 4);
+}
+
+.traza-grafikoa .chart-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #0f172a;
+}
+
+.traza-grafikoa .axis-label {
+    -fx-text-fill: #475569;
+    -fx-font-size: 12px;
+}
+
+.traza-bar-info {
+    -fx-bar-fill: #16a34a;
+}
+
+.traza-bar-warn {
+    -fx-bar-fill: #d97706;
+}
+
+.traza-bar-error {
+    -fx-bar-fill: #dc2626;
+}
+
+.traza-pie-info {
+    -fx-pie-color: #16a34a;
+}
+
+.traza-pie-warn {
+    -fx-pie-color: #d97706;
+}
+
+.traza-pie-error {
+    -fx-pie-color: #dc2626;
+}
+
