@@ -25,7 +25,13 @@
 
 .goiburua {
     -fx-background-color: linear-gradient(to right, #020617, #0f172a, #1e293b);
+    -fx-background-image: url("../irudiak/logo2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left -5px;
+    -fx-background-size: 190 auto;
+
     -fx-padding: 24 10 24 10;
+    -fx-alignment: center;
     -fx-effect: dropshadow(gaussian, rgba(2,6,23,0.55), 18, 0.25, 0, 4);
 }
 

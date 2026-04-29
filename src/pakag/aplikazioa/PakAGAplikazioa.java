@@ -131,10 +131,9 @@ public class PakAGAplikazioa extends Application {
         titulua.getStyleClass().add("app-titulua");
 
         VBox goiburua = new VBox(titulua);
-        goiburua.setAlignment(Pos.CENTER);
         goiburua.getStyleClass().add("goiburua");
 
-        VBox menua = new VBox(12);
+        VBox menua = new VBox();
         menua.getStyleClass().add("menua");
 
         Button hasieraBtn = new Button("🏠  Hasiera");
