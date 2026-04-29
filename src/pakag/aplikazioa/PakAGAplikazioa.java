@@ -106,7 +106,6 @@ public class PakAGAplikazioa extends Application {
     private final BezeroaDAO bezeroaDAO = new BezeroaDAO();
 
 
-
     /**
      * Aplikazioaren hasierako metodoa.
      * Leiho nagusia sortzen du eta menu laterala + edukia prestatzen ditu.
@@ -123,7 +122,6 @@ public class PakAGAplikazioa extends Application {
         goiburua.getStyleClass().add("goiburua");
 
         VBox menua = new VBox(12);
-        menua.setPrefWidth(200);
         menua.getStyleClass().add("menua");
 
         Button hasieraBtn = new Button("🏠  Hasiera");
@@ -148,7 +146,6 @@ public class PakAGAplikazioa extends Application {
         menua.getChildren().addAll(menuBotoiak);
 
         BorderPane edukia = new BorderPane();
-        edukia.setPadding(new Insets(20));
         edukia.getStyleClass().add("edukia");
 
         /*
@@ -161,10 +158,12 @@ public class PakAGAplikazioa extends Application {
          * bakoitzak dagokion panela erakusten du erdiko eremuan.
          */
         hasieraBtn.setOnAction(e -> edukia.setCenter(sortuHasieraPanela()));
+
         banatzaileakBtn.setOnAction(e -> {
             edukia.setCenter(sortuBanatzailePanela());
             taulaKargatu();
         });
+
         bezeroakBtn.setOnAction(e -> edukia.setCenter(sortuBezeroPanela()));
         paketeakBtn.setOnAction(e -> edukia.setCenter(sortuPaketePanela()));
         entregakBtn.setOnAction(e -> edukia.setCenter(sortuEntregakPanela()));
@@ -209,7 +208,7 @@ public class PakAGAplikazioa extends Application {
         // Atzeko fondoa
         Image fondoIrudia = new Image(getClass().getResourceAsStream("/pakag/irudiak/fondo.jpg"));
         BackgroundSize bgSize = new BackgroundSize(
-                100, 100, true, true, true, false
+                100, 100, true, true, false, true
         );
         BackgroundImage bgImage = new BackgroundImage(
                 fondoIrudia,
@@ -255,15 +254,15 @@ public class PakAGAplikazioa extends Application {
                 sortuCard("Paketeak", paketeaDAO.kontatuGuztiak()),
                 sortuCard("Entregak", entregaDAO.kontatuGuztiak()),
                 sortuCard("Banatzaileak", banatzaileaDAO.kontatuGuztiak()),
-                sortuCard("Trazak", trazaDAO.kontatuGuztiak())
+                sortuCard("Bezeroak", bezeroaDAO.kontatuGuztiak())
         );
+
         cards.setAlignment(Pos.CENTER);
         cards.getStyleClass().add("dashboard-cards");
 
         VBox edukia = new VBox(20, logoView, testuKutxa, cards);
         edukia.setAlignment(Pos.CENTER);
         edukia.setMaxWidth(850);
-        edukia.setPadding(new Insets(35));
         edukia.getStyleClass().add("hasiera-edukia");
 
         erroa.getChildren().addAll(iluna, edukia);
@@ -288,7 +287,6 @@ public class PakAGAplikazioa extends Application {
 
         VBox box = new VBox(8, title, value);
         box.setAlignment(Pos.CENTER);
-        box.setPrefSize(145, 90);
         box.getStyleClass().add("dashboard-card");
 
         return box;
@@ -321,8 +319,6 @@ public class PakAGAplikazioa extends Application {
         nanEremua.setPromptText("NAN");
 
         GridPane formularioa = new GridPane();
-        formularioa.setHgap(10);
-        formularioa.setVgap(10);
         formularioa.getStyleClass().add("formularioa");
 
         formularioa.add(new Label("Izena:"), 0, 0);
@@ -358,7 +354,7 @@ public class PakAGAplikazioa extends Application {
         ezabatuBtn.getStyleClass().add("btn-danger");
         garbituBtn.getStyleClass().add("btn-secondary");
 
-        HBox botoiak = new HBox(10, gehituBtn, editatuBtn, ezabatuBtn, garbituBtn);
+        HBox botoiak = new HBox(gehituBtn, editatuBtn, ezabatuBtn, garbituBtn);
         botoiak.getStyleClass().add("botoiak");
 
         gehituBtn.setOnAction(e -> banatzaileaGehitu());
@@ -381,9 +377,9 @@ public class PakAGAplikazioa extends Application {
             }
         });
 
-        VBox panela = new VBox(15, atala, formularioa, botoiak, taula);
-        panela.setPadding(new Insets(10));
+        VBox panela = new VBox(atala, formularioa, botoiak, taula);
         panela.getStyleClass().add("content-card");
+        panela.getStyleClass().add("crud-panela");
 
         return panela;
     }
@@ -504,18 +500,18 @@ public class PakAGAplikazioa extends Application {
         });
 
         GridPane formularioa = new GridPane();
-        formularioa.setHgap(10);
-        formularioa.setVgap(10);
         formularioa.getStyleClass().add("formularioa");
 
         formularioa.add(new Label("Pisua:"), 0, 0);
         formularioa.add(pisuaEremua, 1, 0);
         formularioa.add(new Label("Edukia:"), 2, 0);
         formularioa.add(edukiaEremua, 3, 0);
+
         formularioa.add(new Label("Herria:"), 0, 1);
         formularioa.add(herriaEremua, 1, 1);
         formularioa.add(new Label("Helbidea:"), 2, 1);
         formularioa.add(helbideaEremua, 3, 1);
+
         formularioa.add(new Label("Sarrera data:"), 0, 2);
         formularioa.add(sarreraDataEremua, 1, 2);
         formularioa.add(new Label("Bezero ID:"), 2, 2);
@@ -562,7 +558,7 @@ public class PakAGAplikazioa extends Application {
         ezabatuBtn.getStyleClass().add("btn-danger");
         garbituBtn.getStyleClass().add("btn-secondary");
 
-        HBox botoiak = new HBox(10, gehituBtn, editatuBtn, ezabatuBtn, garbituBtn);
+        HBox botoiak = new HBox(gehituBtn, editatuBtn, ezabatuBtn, garbituBtn);
         botoiak.getStyleClass().add("botoiak");
 
         gehituBtn.setOnAction(e -> paketeaGehitu());
@@ -572,6 +568,7 @@ public class PakAGAplikazioa extends Application {
 
         paketeTaula.setOnMouseClicked(e -> {
             Paketea hautatua = paketeTaula.getSelectionModel().getSelectedItem();
+
             if (hautatua != null) {
                 paketeIdEremua.setText(hautatua.getIdP());
                 pisuaEremua.setText(hautatua.getPisua());
@@ -590,9 +587,9 @@ public class PakAGAplikazioa extends Application {
 
         paketeTaulaKargatu();
 
-        VBox panela = new VBox(15, titulua, formularioa, botoiak, paketeTaula);
-        panela.setPadding(new Insets(10));
+        VBox panela = new VBox(titulua, formularioa, botoiak, paketeTaula);
         panela.getStyleClass().add("content-card");
+        panela.getStyleClass().add("crud-panela");
 
         return panela;
     }
@@ -622,8 +619,6 @@ public class PakAGAplikazioa extends Application {
         entregaBanatzaileaIdEremua.setPromptText("Banatzailea ID");
 
         GridPane formularioa = new GridPane();
-        formularioa.setHgap(10);
-        formularioa.setVgap(10);
         formularioa.getStyleClass().add("formularioa");
 
         formularioa.add(new Label("Entrega data:"), 0, 1);
@@ -668,7 +663,7 @@ public class PakAGAplikazioa extends Application {
         ezabatuBtn.getStyleClass().add("btn-danger");
         garbituBtn.getStyleClass().add("btn-secondary");
 
-        HBox botoiak = new HBox(10, editatuBtn, ezabatuBtn, garbituBtn);
+        HBox botoiak = new HBox(editatuBtn, ezabatuBtn, garbituBtn);
         botoiak.getStyleClass().add("botoiak");
 
         editatuBtn.setOnAction(e -> entregaEditatu());
@@ -677,6 +672,7 @@ public class PakAGAplikazioa extends Application {
 
         entregaTaula.setOnMouseClicked(e -> {
             Entrega hautatua = entregaTaula.getSelectionModel().getSelectedItem();
+
             if (hautatua != null) {
                 entregaDataEremua.setValue(hautatua.getEntregaDate());
                 entregaEgoeraEremua.setValue(hautatua.getEgoera());
@@ -689,9 +685,9 @@ public class PakAGAplikazioa extends Application {
 
         entregaTaulaKargatu();
 
-        VBox panela = new VBox(15, titulua, formularioa, botoiak, entregaTaula);
-        panela.setPadding(new Insets(10));
+        VBox panela = new VBox(titulua, formularioa, botoiak, entregaTaula);
         panela.getStyleClass().add("content-card");
+        panela.getStyleClass().add("crud-panela");
 
         return panela;
     }
@@ -728,9 +724,9 @@ public class PakAGAplikazioa extends Application {
 
         trazaTaulaKargatu();
 
-        VBox panela = new VBox(15, titulua, kargatuBtn, trazaTaula);
-        panela.setPadding(new Insets(10));
+        VBox panela = new VBox(titulua, kargatuBtn, trazaTaula);
         panela.getStyleClass().add("content-card");
+        panela.getStyleClass().add("crud-panela");
 
         return panela;
     }
@@ -770,13 +766,12 @@ public class PakAGAplikazioa extends Application {
         );
         historialaTaula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
-
         historialaTaulaKargatu();
 
-        VBox panela = new VBox(15, titulua, historialaTaula);
-        panela.setPadding(new Insets(10));
+        VBox panela = new VBox(titulua, historialaTaula);
         panela.getStyleClass().add("content-card");
+        panela.getStyleClass().add("crud-panela");
+
         return panela;
     }
 

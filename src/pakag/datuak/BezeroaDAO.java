@@ -79,6 +79,29 @@ public class BezeroaDAO {
     }
 
     /**
+     * Datu-baseko bezero guztien kopurua kalkulatzen du.
+     *
+     * @return bezero kopurua
+     */
+    public int kontatuGuztiak() {
+        String sql = "SELECT COUNT(*) FROM Bezeroa";
+
+        try (Connection con = Konexioa.lortuKonexioa();
+             PreparedStatement pst = con.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Errorea bezeroak kontatzean: " + e.getMessage());
+        }
+
+        return 0;
+    }
+
+    /**
      * Bezero baten datuak eguneratzen ditu.
      *
      * @param bezeroa eguneratu nahi den bezeroa

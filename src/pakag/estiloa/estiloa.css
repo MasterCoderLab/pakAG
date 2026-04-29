@@ -24,7 +24,11 @@
 
 .edukia {
     -fx-background-color: #f1f5f9;
-    -fx-padding: 26;
+    -fx-padding: 10;
+}
+
+.hasiera-edukia {
+    -fx-padding: 35;
 }
 
 /* ===== TÍTULO PRINCIPAL ===== */
@@ -305,6 +309,8 @@
 /* ===== DASHBOARD / INICIO ===== */
 
 .dashboard-card {
+    -fx-pref-width: 145;
+    -fx-pref-height: 90;
     -fx-background-color: rgba(255,255,255,0.94);
     -fx-background-radius: 18;
     -fx-border-radius: 18;
@@ -400,6 +406,10 @@
 .botoiak {
     -fx-spacing: 10;
     -fx-alignment: center-left;
+}
+
+.crud-panela {
+    -fx-spacing: 15;
 }
 
 /* ===== HASIERAKO TESTUAK ===== */
