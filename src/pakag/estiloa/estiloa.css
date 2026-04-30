@@ -511,3 +511,46 @@
     -fx-pie-color: #dc2626;
 }
 
+/* ===== HISTORIALA ===== */
+
+.historiala-iragazkiak {
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+}
+
+.table-row-cell.historiala-row-pendiente {
+    -fx-background-color: #fee2e2;
+}
+
+.table-row-cell.historiala-row-esleituta {
+    -fx-background-color: #dbeafe;
+}
+
+.table-row-cell.historiala-row-bidean {
+    -fx-background-color: #fef3c7;
+}
+
+.table-row-cell.historiala-row-entregatuta {
+    -fx-background-color: #dcfce7;
+}
+
+.table-row-cell.historiala-row-entregatu-gabe {
+    -fx-background-color: #fecaca;
+}
+
+.table-row-cell.historiala-row-pendiente:hover,
+.table-row-cell.historiala-row-esleituta:hover,
+.table-row-cell.historiala-row-bidean:hover,
+.table-row-cell.historiala-row-entregatuta:hover,
+.table-row-cell.historiala-row-entregatu-gabe:hover {
+    -fx-background-color: #e0f2fe;
+}
+
+.table-row-cell.historiala-row-pendiente:selected,
+.table-row-cell.historiala-row-esleituta:selected,
+.table-row-cell.historiala-row-bidean:selected,
+.table-row-cell.historiala-row-entregatuta:selected,
+.table-row-cell.historiala-row-entregatu-gabe:selected {
+    -fx-background-color: #0284c7;
+}
+

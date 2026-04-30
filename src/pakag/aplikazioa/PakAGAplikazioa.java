@@ -46,6 +46,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 
+import javafx.scene.control.TextField;
+
 
 /**
  * pakAG proiektuaren kudeatzailearen aplikazio nagusia.
@@ -140,7 +142,7 @@ public class PakAGAplikazioa extends Application {
         Button banatzaileakBtn = new Button("🚚  Banatzaileak");
         Button bezeroakBtn = new Button("👥  Bezeroak");
         Button paketeakBtn = new Button("📦  Paketeak");
-        Button entregakBtn = new Button("🧾  Entregak");
+        Button entregakBtn = new Button("\uD83D\uDCCB  Entregak");
         Button historialaBtn = new Button("📊  Historiala");
         Button trazakBtn = new Button("🕘  Trazak");
         Button irtenBtn = new Button("🚪  Irten");
@@ -359,7 +361,7 @@ public class PakAGAplikazioa extends Application {
         Button gehituBtn = new Button("➕ Gehitu");
         Button editatuBtn = new Button("✏️ Editatu");
         Button ezabatuBtn = new Button("🗑 Ezabatu");
-        Button garbituBtn = new Button("🧹 Garbitu");
+        Button garbituBtn = new Button("♻ Garbitu");
 
         gehituBtn.getStyleClass().add("btn-success");
         editatuBtn.getStyleClass().add("btn-warning");
@@ -452,7 +454,7 @@ public class PakAGAplikazioa extends Application {
         Button gehituBtn = new Button("➕ Gehitu");
         Button editatuBtn = new Button("✏️ Editatu");
         Button ezabatuBtn = new Button("🗑 Ezabatu");
-        Button garbituBtn = new Button("🧹 Garbitu");
+        Button garbituBtn = new Button("♻ Garbitu");
 
         gehituBtn.getStyleClass().add("btn-success");
         editatuBtn.getStyleClass().add("btn-warning");
@@ -563,7 +565,7 @@ public class PakAGAplikazioa extends Application {
         Button gehituBtn = new Button("➕ Gehitu");
         Button editatuBtn = new Button("✏️ Editatu");
         Button ezabatuBtn = new Button("🗑 Ezabatu");
-        Button garbituBtn = new Button("🧹 Garbitu");
+        Button garbituBtn = new Button("♻ Garbitu");
 
         gehituBtn.getStyleClass().add("btn-success");
         editatuBtn.getStyleClass().add("btn-warning");
@@ -622,8 +624,7 @@ public class PakAGAplikazioa extends Application {
                 "esleituta",
                 "bidean",
                 "entregatuta",
-                "ez_entregatuta",
-                "atzeratuta"
+                "entregatu gabe"
         );
         entregaEgoeraEremua.setPromptText("Egoera");
 
@@ -669,7 +670,7 @@ public class PakAGAplikazioa extends Application {
 
         Button editatuBtn = new Button("✏️ Editatu");
         Button ezabatuBtn = new Button("🗑 Ezabatu");
-        Button garbituBtn = new Button("🧹 Garbitu");
+        Button garbituBtn = new Button("♻ Garbitu");
 
         editatuBtn.getStyleClass().add("btn-warning");
         ezabatuBtn.getStyleClass().add("btn-danger");
@@ -881,6 +882,28 @@ public class PakAGAplikazioa extends Application {
         Label titulua = new Label("Historiala");
         titulua.getStyleClass().add("section-title");
 
+        ComboBox<String> egoeraFiltroa = new ComboBox<>();
+        egoeraFiltroa.getItems().addAll(
+                "GUZTIAK",
+                "pendiente",
+                "esleituta",
+                "bidean",
+                "entregatuta",
+                "entregatu gabe"
+        );
+        egoeraFiltroa.setValue("GUZTIAK");
+
+        TextField bilatzailea = new TextField();
+        bilatzailea.setPromptText("Bilatu...");
+
+        HBox iragazkiak = new HBox(
+                new Label("Egoera:"),
+                egoeraFiltroa,
+                new Label("Bilaketa:"),
+                bilatzailea
+        );
+        iragazkiak.getStyleClass().add("historiala-iragazkiak");
+
         TableColumn<Historiala, java.time.LocalDate> dataCol = new TableColumn<>("Entrega data");
         dataCol.setCellValueFactory(new PropertyValueFactory<>("entregaDate"));
 
@@ -912,13 +935,91 @@ public class PakAGAplikazioa extends Application {
         );
         historialaTaula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        historialaTaulaKargatu();
+        historialaTaula.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Historiala historiala, boolean empty) {
+                super.updateItem(historiala, empty);
 
-        VBox panela = new VBox(titulua, historialaTaula);
+                getStyleClass().removeAll(
+                        "historiala-row-pendiente",
+                        "historiala-row-esleituta",
+                        "historiala-row-bidean",
+                        "historiala-row-entregatuta",
+                        "historiala-row-entregatu-gabe"
+                );
+
+                if (empty || historiala == null || historiala.getEgoera() == null) {
+                    return;
+                }
+
+                switch (historiala.getEgoera().toLowerCase()) {
+                    case "pendiente" -> getStyleClass().add("historiala-row-pendiente");
+                    case "esleituta" -> getStyleClass().add("historiala-row-esleituta");
+                    case "bidean" -> getStyleClass().add("historiala-row-bidean");
+                    case "entregatuta" -> getStyleClass().add("historiala-row-entregatuta");
+                    case "entregatu gabe", "ez_entregatuta" -> getStyleClass().add("historiala-row-entregatu-gabe");
+                }
+            }
+        });
+
+        List<Historiala> datuGuztiak = historialaDAO.lortuGuztiak();
+
+        Runnable filtroaAplikatu = () -> {
+            String egoeraAukeratua = egoeraFiltroa.getValue();
+            String bilaketa = bilatzailea.getText() == null
+                    ? ""
+                    : bilatzailea.getText().trim().toLowerCase();
+
+            historialaTaula.getItems().setAll(
+                    datuGuztiak.stream()
+                            .filter(h -> {
+                                if ("GUZTIAK".equals(egoeraAukeratua)) {
+                                    return true;
+                                }
+
+                                if (h.getEgoera() == null) {
+                                    return false;
+                                }
+
+                                return h.getEgoera().equalsIgnoreCase(egoeraAukeratua);
+                            })
+                            .filter(h -> historialaBilaketarekinBatDator(h, bilaketa))
+                            .toList()
+            );
+        };
+
+        egoeraFiltroa.setOnAction(e -> filtroaAplikatu.run());
+        bilatzailea.textProperty().addListener((obs, zaharra, berria) -> filtroaAplikatu.run());
+
+        filtroaAplikatu.run();
+
+        VBox panela = new VBox(titulua, iragazkiak, historialaTaula);
         panela.getStyleClass().add("content-card");
         panela.getStyleClass().add("crud-panela");
 
         return panela;
+    }
+
+    /**
+     * Historialeko errenkada batek bilaketarekin bat egiten duen egiaztatzen du.
+     *
+     * @param h historialeko objektua
+     * @param bilaketa erabiltzaileak idatzitako testua
+     * @return true bat badator, false bestela
+     */
+    private boolean historialaBilaketarekinBatDator(Historiala h, String bilaketa) {
+        if (bilaketa == null || bilaketa.isBlank()) {
+            return true;
+        }
+
+        return String.valueOf(h.getEntregaDate()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getPaketeId()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getEntregaId()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getBezeroId()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getBanatzaileaId()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getEgoera()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getHerria()).toLowerCase().contains(bilaketa)
+                || String.valueOf(h.getHelbidea()).toLowerCase().contains(bilaketa);
     }
 
     /**
