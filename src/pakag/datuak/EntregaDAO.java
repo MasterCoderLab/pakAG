@@ -195,4 +195,36 @@ public class EntregaDAO {
 
         return 0;
     }
+
+    /**
+     * Banatzaile batek entrega aktiboak dituen egiaztatzen du.
+     *
+     * @param banatzaileaId banatzailearen ID-a
+     * @return true entrega aktiboak baditu, false bestela
+     */
+    public boolean banatzaileakEntregaAktiboakDitu(int banatzaileaId) {
+        String sql = """
+            SELECT COUNT(*)
+            FROM Entrega
+            WHERE Banatzailea_ID_Ba = ?
+            AND egoera IN ('pendiente', 'esleituta', 'bidean', 'atzeratuta')
+            """;
+
+        try (Connection con = Konexioa.lortuKonexioa();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            pst.setInt(1, banatzaileaId);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Errorea entrega aktiboak egiaztatzean: " + e.getMessage());
+        }
+
+        return false;
+    }
 }

@@ -1120,7 +1120,7 @@ public class PakAGAplikazioa extends Application {
     /**
      * Taulan hautatutako banatzailea ezabatzen du.
      * Ezabatu aurretik baieztapen leiho bat erakusten da.
-     * Banatzailea ezabatu aurretik, bere kontua automatikoki ezabatzen da.
+     * Banatzaileak entrega aktiboak baditu, ez da ez kontua ez banatzailea ezabatzen.
      */
     private void banatzaileaEzabatu() {
         Banatzailea hautatua = taula.getSelectionModel().getSelectedItem();
@@ -1130,30 +1130,61 @@ public class PakAGAplikazioa extends Application {
             return;
         }
 
+        if (entregaDAO.banatzaileakEntregaAktiboakDitu(hautatua.getIdBa())) {
+            mezua(
+                    "Abisua",
+                    "Banatzaileak entrega aktiboak ditu. Ezin da bere kontua ezabatu.",
+                    Alert.AlertType.WARNING
+            );
+            return;
+        }
+
         Alert baieztapena = new Alert(Alert.AlertType.CONFIRMATION);
         baieztapena.setTitle("Baieztapena");
         baieztapena.setHeaderText(null);
-        baieztapena.setContentText("Ziur zaude banatzailea eta bere kontua ezabatu nahi dituzula?");
+        baieztapena.setContentText(
+                "Ziur zaude banatzailearen kontua ezabatu nahi duzula?\n" +
+                        "Banatzaileak historialeko entregak baditu, datu historikoak mantenduko dira."
+        );
 
         Optional<ButtonType> emaitza = baieztapena.showAndWait();
 
         if (emaitza.isPresent() && emaitza.get() == ButtonType.OK) {
             boolean kontuaEzabatuta = kontuaDAO.ezabatuBanatzailearenKontua(hautatua.getIdBa());
 
-            if (kontuaEzabatuta) {
-                boolean banatzaileaEzabatuta = banatzaileaDAO.ezabatu(hautatua.getIdBa());
-
-                if (banatzaileaEzabatuta) {
-                    trazaDAO.gehitu("DELETE_BANATZAILEA", "Banatzailea eta bere kontua ezabatu dira: " + hautatua.getIdBa());
-                    mezua("Ondo", "Banatzailea eta bere kontua ezabatu dira.", Alert.AlertType.INFORMATION);
-                    taulaKargatu();
-                    eremuakGarbitu();
-                } else {
-                    mezua("Errorea", "Kontua ezabatu da, baina ezin izan da banatzailea ezabatu.", Alert.AlertType.ERROR);
-                }
-            } else {
+            if (!kontuaEzabatuta) {
                 mezua("Errorea", "Ezin izan da banatzailearen kontua ezabatu.", Alert.AlertType.ERROR);
+                return;
             }
+
+            boolean banatzaileaEzabatuta = banatzaileaDAO.ezabatu(hautatua.getIdBa());
+
+            if (banatzaileaEzabatuta) {
+                trazaDAO.gehitu(
+                        "DELETE_BANATZAILEA",
+                        "Banatzailea eta bere kontua ezabatu dira: " + hautatua.getIdBa()
+                );
+
+                mezua(
+                        "Ondo",
+                        "Banatzailea eta bere kontua ezabatu dira.",
+                        Alert.AlertType.INFORMATION
+                );
+            } else {
+                trazaDAO.gehitu(
+                        "DELETE_KONTUA",
+                        "Banatzailearen kontua ezabatu da, baina banatzailea historialean mantendu da: " + hautatua.getIdBa()
+                );
+
+                mezua(
+                        "Ondo",
+                        "Kontua ezabatu da. Banatzailea historialean mantenduko da.",
+                        Alert.AlertType.INFORMATION
+                );
+            }
+
+            taulaKargatu();
+            eremuakGarbitu();
         }
     }
 
