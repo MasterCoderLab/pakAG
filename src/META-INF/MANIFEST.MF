@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: pakag.aplikazioa.PakAGAplikazioa
+Class-Path: mysql-connector-j-9.6.0.jar jxmapviewer2-2.6.jar javafx.base
+ .jar javafx.controls.jar javafx.fxml.jar javafx.graphics.jar javafx.med
+ ia.jar javafx.swing.jar javafx.web.jar javafx-swt.jar jdk.jsobject.jar 
+ jfx.incubator.input.jar jfx.incubator.richtext.jar
+

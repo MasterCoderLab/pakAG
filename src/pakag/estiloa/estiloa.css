@@ -1,16 +1,22 @@
 /* =========================================================
    pakAG - KUDEATZAILEA
    JavaFX CSS
+
+   Fitxategi honetan aplikazioaren diseinu bisuala dago:
+   koloreak, botoiak, taulak, formularioak, login-a,
+   hasierako panela, trazak eta historiala.
    ========================================================= */
 
 
 /* ===== OINARRIA ===== */
 
+/* Aplikazio osoko letra mota eta atzeko kolore orokorra */
 .root {
     -fx-font-family: "Segoe UI", "Arial", "Segoe UI Emoji";
     -fx-background-color: #f1f5f9;
 }
 
+/* Label guztien oinarrizko estiloa */
 .label {
     -fx-text-fill: #1e293b;
     -fx-font-size: 13px;
@@ -19,27 +25,30 @@
 
 /* ===== EGITURA NAGUSIA ===== */
 
+/* Leiho nagusiaren erroko edukiontzia */
 .erroa {
     -fx-background-color: #f1f5f9;
 }
 
+/* Goiburua: titulua eta logo txikia dituen goiko barra */
 .goiburua {
     -fx-background-color: linear-gradient(to right, #020617, #0f172a, #1e293b);
     -fx-background-image: url("../irudiak/logo2.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: left -5px;
     -fx-background-size: 190 auto;
-
     -fx-padding: 24 10 24 10;
     -fx-alignment: center;
     -fx-effect: dropshadow(gaussian, rgba(2,6,23,0.55), 18, 0.25, 0, 4);
 }
 
+/* Erdiko edukia: menuaren eskuinean kargatzen diren panelak */
 .edukia {
     -fx-background-color: #f1f5f9;
     -fx-padding: 10;
 }
 
+/* Beheko oina */
 .footer {
     -fx-background-color: #020617;
     -fx-padding: 9 16;
@@ -47,6 +56,7 @@
     -fx-alignment: center;
 }
 
+/* Oineko copyright testua */
 .footer-text {
     -fx-text-fill: #cbd5e1;
     -fx-font-size: 12px;
@@ -55,6 +65,7 @@
 
 /* ===== GOIBURUKO TITULUA ===== */
 
+/* Aplikazioaren titulu nagusia */
 .label.app-titulua {
     -fx-text-fill: white;
     -fx-font-size: 34px;
@@ -66,6 +77,7 @@
 
 /* ===== ALBOKO MENUA ===== */
 
+/* Ezkerreko menuaren edukiontzia */
 .menua {
     -fx-background-color: linear-gradient(to bottom, #020617, #0f172a, #1e293b);
     -fx-padding: 38 18 30 18;
@@ -74,6 +86,7 @@
     -fx-pref-width: 245;
 }
 
+/* Menuko botoi arruntak */
 .menu-btn {
     -fx-background-color: rgba(255,255,255,0.88);
     -fx-text-fill: #0f172a;
@@ -90,6 +103,7 @@
     -fx-effect: dropshadow(gaussian, rgba(2,6,23,0.18), 8, 0.14, 0, 3);
 }
 
+/* Sagua botoiaren gainetik pasatzean */
 .menu-btn:hover {
     -fx-background-color: white;
     -fx-text-fill: #0284c7;
@@ -97,17 +111,19 @@
     -fx-effect: dropshadow(gaussian, rgba(14,165,233,0.35), 14, 0.25, 0, 4);
 }
 
-.menu-btn-active,
+/* Botoia klikatu ondoren edo fokuan dagoenean urdin geratzeko */
 .menu-btn:focused {
     -fx-background-color: linear-gradient(to right, #0ea5e9, #2563eb);
     -fx-text-fill: white;
     -fx-border-color: rgba(255,255,255,0.35);
+    -fx-border-width: 1.2;
     -fx-effect: dropshadow(gaussian, rgba(14,165,233,0.65), 20, 0.35, 0, 5);
 }
 
 
 /* ===== EDUKI TXARTELAK ===== */
 
+/* Atal nagusietako txartel zuria */
 .content-card {
     -fx-background-color: rgba(255,255,255,0.98);
     -fx-background-radius: 26;
@@ -118,10 +134,12 @@
     -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.16), 28, 0.22, 0, 8);
 }
 
+/* Txartelaren itzal efektu arina */
 .content-card:hover {
     -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.20), 32, 0.24, 0, 10);
 }
 
+/* CRUD paneletako elementuen arteko tartea */
 .crud-panela {
     -fx-spacing: 15;
 }
@@ -129,6 +147,7 @@
 
 /* ===== TESTUAK ===== */
 
+/* Atal bakoitzaren izenburua */
 .section-title {
     -fx-font-size: 23px;
     -fx-font-weight: 800;
@@ -138,11 +157,13 @@
 
 /* ===== FORMULARIOAK ===== */
 
+/* Formularioetako GridPane tarteak */
 .formularioa {
     -fx-hgap: 12;
     -fx-vgap: 12;
 }
 
+/* Testu eremuak, datak eta aukeraketa kutxak */
 .text-field,
 .date-picker,
 .combo-box {
@@ -157,12 +178,14 @@
     -fx-prompt-text-fill: #94a3b8;
 }
 
+/* Formularioetako eremuen hover efektua */
 .text-field:hover,
 .date-picker:hover,
 .combo-box:hover {
     -fx-border-color: #93c5fd;
 }
 
+/* Formularioetako eremua hautatuta dagoenean */
 .text-field:focused,
 .date-picker:focused,
 .combo-box:focused {
@@ -174,12 +197,14 @@
 
 /* ===== DATEPICKER BARRUKO ELEMENTUAK ===== */
 
+/* DatePicker barruko testu eremua garbiago uzteko */
 .date-picker .text-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-effect: none;
 }
 
+/* DatePicker botoiaren estiloa */
 .date-picker .arrow-button {
     -fx-background-color: transparent;
     -fx-background-radius: 0 11 11 0;
@@ -188,6 +213,7 @@
 
 /* ===== COMBOBOX BARRUKO ELEMENTUAK ===== */
 
+/* ComboBox barruko elementuen testua */
 .combo-box .list-cell {
     -fx-text-fill: #0f172a;
     -fx-font-size: 13px;
@@ -196,6 +222,7 @@
 
 /* ===== BOTOI OROKORRAK ===== */
 
+/* Botoi guztien oinarrizko estiloa */
 .button {
     -fx-background-radius: 11;
     -fx-border-radius: 11;
@@ -208,12 +235,14 @@
     -fx-text-fill: #0f172a;
 }
 
+/* Botoien hover efektua */
 .button:hover {
     -fx-opacity: 0.96;
     -fx-translate-y: -1;
     -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.22), 12, 0.22, 0, 4);
 }
 
+/* Botoia sakatzean */
 .button:pressed {
     -fx-translate-y: 1;
     -fx-scale-x: 0.98;
@@ -223,31 +252,37 @@
 
 /* ===== EKINTZA BOTOIAK ===== */
 
+/* Botoi nagusia: login, freskatu edo ekintza orokorrak */
 .btn-primary {
     -fx-background-color: linear-gradient(to right, #0ea5e9, #2563eb);
     -fx-text-fill: white;
 }
 
+/* Gehitzeko botoia */
 .btn-success {
     -fx-background-color: linear-gradient(to right, #22c55e, #16a34a);
     -fx-text-fill: white;
 }
 
+/* Editatzeko botoia */
 .btn-warning {
     -fx-background-color: linear-gradient(to right, #f59e0b, #ea580c);
     -fx-text-fill: white;
 }
 
+/* Ezabatzeko botoia */
 .btn-danger {
     -fx-background-color: linear-gradient(to right, #ef4444, #dc2626);
     -fx-text-fill: white;
 }
 
+/* Bigarren mailako botoia: garbitu edo laguntza */
 .btn-secondary {
     -fx-background-color: linear-gradient(to right, #64748b, #475569);
     -fx-text-fill: white;
 }
 
+/* Ekintza botoien hover efektu berezia */
 .btn-primary:hover,
 .btn-success:hover,
 .btn-warning:hover,
@@ -257,6 +292,7 @@
     -fx-scale-y: 1.025;
 }
 
+/* Botoien edukiontzia */
 .botoiak {
     -fx-spacing: 10;
     -fx-alignment: center-left;
@@ -265,6 +301,7 @@
 
 /* ===== TAULAK ===== */
 
+/* TableView guztien estilo nagusia */
 .table-view {
     -fx-background-color: white;
     -fx-background-radius: 14;
@@ -275,12 +312,14 @@
     -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.12), 18, 0.18, 0, 5);
 }
 
+/* Taulen goiburuko atzeko kolorea */
 .table-view .column-header-background {
     -fx-background-color: linear-gradient(to right, #0f172a, #1e293b);
     -fx-background-radius: 14 14 0 0;
     -fx-padding: 0;
 }
 
+/* Taulen zutabeen goiburuak */
 .table-view .column-header,
 .table-view .filler {
     -fx-background-color: transparent;
@@ -288,6 +327,7 @@
     -fx-border-color: transparent rgba(255,255,255,0.12) transparent transparent;
 }
 
+/* Goiburuko testua */
 .table-view .column-header .label {
     -fx-text-fill: white;
     -fx-font-size: 13px;
@@ -295,28 +335,34 @@
     -fx-alignment: center;
 }
 
+/* Taulako errenkada arruntak */
 .table-row-cell {
     -fx-background-color: white;
     -fx-border-color: transparent transparent #eef2f7 transparent;
     -fx-cell-size: 39;
 }
 
+/* Errenkada txandakatuak */
 .table-row-cell:odd {
     -fx-background-color: #f8fafc;
 }
 
+/* Errenkadaren hover efektua */
 .table-row-cell:hover {
     -fx-background-color: #e0f2fe;
 }
 
+/* Hautatutako errenkada */
 .table-row-cell:selected {
     -fx-background-color: #0284c7;
 }
 
+/* Hautatutako errenkadako testua */
 .table-row-cell:selected .text {
     -fx-fill: white;
 }
 
+/* Taulako gelaxkak */
 .table-cell {
     -fx-padding: 8 10;
     -fx-text-fill: #0f172a;
@@ -327,16 +373,19 @@
 
 /* ===== TAULAKO SCROLLBARRAK ===== */
 
+/* Taulen scroll barrak garden uzteko */
 .table-view .scroll-bar:vertical,
 .table-view .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
 
+/* Scroll barraren heldulekua */
 .table-view .scroll-bar .thumb {
     -fx-background-color: #cbd5e1;
     -fx-background-radius: 8;
 }
 
+/* Scroll barraren hover efektua */
 .table-view .scroll-bar .thumb:hover {
     -fx-background-color: #94a3b8;
 }
@@ -344,10 +393,27 @@
 
 /* ===== HASIERA / DASHBOARDA ===== */
 
+/*
+   Hasierako atzeko irudia Java kodean kargatzen da.
+   Horregatik hemen ez da .hasiera-panela kolore batekin estaltzen.
+*/
+
+/* Atzeko irudiaren gaineko geruza iluna */
+.hasiera-iluna {
+    -fx-background-color: rgba(2,6,23,0.55);
+}
+
+/* Hasierako eduki nagusiaren tartea */
 .hasiera-edukia {
     -fx-padding: 35;
 }
 
+/* Titulua eta azpititulua biltzen dituen kutxa */
+.hasiera-testu-kutxa {
+    -fx-padding: 14 20;
+}
+
+/* Hasierako titulu nagusia */
 .hasiera-titulua {
     -fx-font-size: 30px;
     -fx-font-weight: 900;
@@ -355,6 +421,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.85), 8, 0.35, 0, 2);
 }
 
+/* Hasierako azalpen testua */
 .hasiera-azpititulua {
     -fx-font-size: 16px;
     -fx-font-weight: 600;
@@ -362,6 +429,13 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.90), 8, 0.35, 0, 2);
 }
 
+/* Dashboardeko txartelen lerroa */
+.dashboard-cards {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+/* Dashboardeko txartel bakoitza */
 .dashboard-card {
     -fx-pref-width: 145;
     -fx-pref-height: 90;
@@ -374,17 +448,20 @@
     -fx-effect: dropshadow(gaussian, rgba(2,6,23,0.32), 18, 0.25, 0, 6);
 }
 
+/* Dashboardeko txartelaren hover efektua */
 .dashboard-card:hover {
     -fx-translate-y: -3;
     -fx-effect: dropshadow(gaussian, rgba(14,165,233,0.35), 20, 0.28, 0, 7);
 }
 
+/* Dashboardeko txartelaren izenburua */
 .dashboard-card-title {
     -fx-font-size: 15px;
     -fx-font-weight: 600;
     -fx-text-fill: #64748b;
 }
 
+/* Dashboardeko zenbaki handia */
 .dashboard-card-number {
     -fx-font-size: 35px;
     -fx-font-weight: 900;
@@ -392,65 +469,69 @@
 }
 
 
-/* ===== GARBIKETA OSAGARRIA ===== */
-
-.separator *.line {
-    -fx-border-color: #e2e8f0;
-    -fx-border-width: 1 0 0 0;
-}
-
 /* ===== TRAZAK ===== */
 
+/* Trazak ataleko goiko barra */
 .traza-goiko-barra {
     -fx-padding: 4 0 8 0;
 }
 
+/* INFO, WARN eta ERROR kopuruak */
 .traza-estatistikak {
     -fx-spacing: 22;
     -fx-alignment: center-left;
 }
 
+/* Trazak iragazteko eremua */
 .traza-iragazkia {
     -fx-spacing: 10;
     -fx-alignment: center-right;
 }
 
+/* INFO mailaren kolorea */
 .traza-info {
     -fx-text-fill: #16a34a;
     -fx-font-weight: 800;
     -fx-font-size: 14px;
 }
 
+/* WARN mailaren kolorea */
 .traza-warn {
     -fx-text-fill: #d97706;
     -fx-font-weight: 800;
     -fx-font-size: 14px;
 }
 
+/* ERROR mailaren kolorea */
 .traza-error {
     -fx-text-fill: #dc2626;
     -fx-font-weight: 800;
     -fx-font-size: 14px;
 }
 
+/* INFO trazen errenkadak */
 .table-row-cell.traza-row-info {
     -fx-background-color: #dcfce7;
 }
 
+/* WARN trazen errenkadak */
 .table-row-cell.traza-row-warn {
     -fx-background-color: #fef3c7;
 }
 
+/* ERROR trazen errenkadak */
 .table-row-cell.traza-row-error {
     -fx-background-color: #fee2e2;
 }
 
+/* Trazen errenkaden hover efektua */
 .table-row-cell.traza-row-info:hover,
 .table-row-cell.traza-row-warn:hover,
 .table-row-cell.traza-row-error:hover {
     -fx-background-color: #e0f2fe;
 }
 
+/* Trazen errenkada hautatua */
 .table-row-cell.traza-row-info:selected,
 .table-row-cell.traza-row-warn:selected,
 .table-row-cell.traza-row-error:selected {
@@ -460,11 +541,13 @@
 
 /* ===== TRAZEN GRAFIKOAK ===== */
 
+/* Trazetako grafikoen edukiontzia */
 .traza-grafikoak {
     -fx-spacing: 16;
     -fx-alignment: center;
 }
 
+/* Grafikoen txartel itxura */
 .traza-grafikoa {
     -fx-background-color: white;
     -fx-background-radius: 16;
@@ -476,68 +559,71 @@
     -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.10), 14, 0.16, 0, 4);
 }
 
-.traza-grafikoa .chart-title {
-    -fx-font-size: 14px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #0f172a;
-}
-
-.traza-grafikoa .axis-label {
-    -fx-text-fill: #475569;
-    -fx-font-size: 12px;
-}
-
+/* Barra-grafikoko INFO kolorea */
 .traza-bar-info {
     -fx-bar-fill: #16a34a;
 }
 
+/* Barra-grafikoko WARN kolorea */
 .traza-bar-warn {
     -fx-bar-fill: #d97706;
 }
 
+/* Barra-grafikoko ERROR kolorea */
 .traza-bar-error {
     -fx-bar-fill: #dc2626;
 }
 
+/* Zirkulu-grafikoko INFO kolorea */
 .traza-pie-info {
     -fx-pie-color: #16a34a;
 }
 
+/* Zirkulu-grafikoko WARN kolorea */
 .traza-pie-warn {
     -fx-pie-color: #d97706;
 }
 
+/* Zirkulu-grafikoko ERROR kolorea */
 .traza-pie-error {
     -fx-pie-color: #dc2626;
 }
 
+
 /* ===== HISTORIALA ===== */
 
+/* Historialeko filtroen lerroa */
 .historiala-iragazkiak {
     -fx-spacing: 10;
     -fx-alignment: center-left;
 }
 
+/* Egoera: pendiente */
 .table-row-cell.historiala-row-pendiente {
     -fx-background-color: #fee2e2;
 }
 
+/* Egoera: esleituta */
 .table-row-cell.historiala-row-esleituta {
     -fx-background-color: #dbeafe;
 }
 
+/* Egoera: bidean */
 .table-row-cell.historiala-row-bidean {
     -fx-background-color: #fef3c7;
 }
 
+/* Egoera: entregatuta */
 .table-row-cell.historiala-row-entregatuta {
     -fx-background-color: #dcfce7;
 }
 
+/* Egoera: entregatu gabe */
 .table-row-cell.historiala-row-entregatu-gabe {
     -fx-background-color: #fecaca;
 }
 
+/* Historialeko errenkaden hover efektua */
 .table-row-cell.historiala-row-pendiente:hover,
 .table-row-cell.historiala-row-esleituta:hover,
 .table-row-cell.historiala-row-bidean:hover,
@@ -546,6 +632,7 @@
     -fx-background-color: #e0f2fe;
 }
 
+/* Historialeko errenkada hautatua */
 .table-row-cell.historiala-row-pendiente:selected,
 .table-row-cell.historiala-row-esleituta:selected,
 .table-row-cell.historiala-row-bidean:selected,
@@ -554,13 +641,16 @@
     -fx-background-color: #0284c7;
 }
 
+
 /* ===== LOGIN ===== */
 
+/* Login pantailaren atzeko fondoa */
 .login-erroa {
     -fx-background-color: linear-gradient(to bottom right, #020617, #0f172a, #1e293b);
     -fx-padding: 35;
 }
 
+/* Loginaren kutxa nagusia */
 .login-kutxa {
     -fx-background-color: rgba(255,255,255,0.97);
     -fx-background-radius: 24;
@@ -571,15 +661,16 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 28, 0.28, 0, 8);
 }
 
+/* Loginaren titulua */
 .login-titulua {
     -fx-font-size: 22px;
     -fx-font-weight: 900;
     -fx-text-fill: #0f172a;
 }
 
+/* Login okerreko mezua */
 .login-error {
     -fx-text-fill: #dc2626;
     -fx-font-size: 13px;
     -fx-font-weight: 700;
 }
-
