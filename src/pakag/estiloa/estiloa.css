@@ -554,3 +554,32 @@
     -fx-background-color: #0284c7;
 }
 
+/* ===== LOGIN ===== */
+
+.login-erroa {
+    -fx-background-color: linear-gradient(to bottom right, #020617, #0f172a, #1e293b);
+    -fx-padding: 35;
+}
+
+.login-kutxa {
+    -fx-background-color: rgba(255,255,255,0.97);
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-border-color: rgba(255,255,255,0.35);
+    -fx-border-width: 1;
+    -fx-padding: 34;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 28, 0.28, 0, 8);
+}
+
+.login-titulua {
+    -fx-font-size: 22px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #0f172a;
+}
+
+.login-error {
+    -fx-text-fill: #dc2626;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+}
+

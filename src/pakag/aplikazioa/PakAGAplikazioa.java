@@ -123,12 +123,23 @@ public class PakAGAplikazioa extends Application {
 
     /**
      * Aplikazioaren hasierako metodoa.
-     * Leiho nagusia sortzen du eta menu laterala + edukia prestatzen ditu.
+     * Lehenik login leihoa erakusten du.
      *
      * @param stage JavaFX-eko leiho nagusia
      */
     @Override
     public void start(Stage stage) {
+        LoginLeihoa loginLeihoa = new LoginLeihoa();
+        loginLeihoa.erakutsi(stage, () -> erakutsiLeihoNagusia(stage));
+    }
+
+    /**
+     * Kudeatzailearen leiho nagusia sortzen du.
+     * Menu laterala, goiburua, edukia eta oina prestatzen ditu.
+     *
+     * @param stage JavaFX-eko leiho nagusia
+     */
+    private void erakutsiLeihoNagusia(Stage stage) {
         Label titulua = new Label("pakAG - Kudeatzailea");
         titulua.getStyleClass().add("app-titulua");
 
@@ -205,10 +216,12 @@ public class PakAGAplikazioa extends Application {
         );
 
         stage.setTitle("pakAG Kudeatzailea");
+        stage.setResizable(true);
         stage.setScene(escena);
+        stage.sizeToScene();
+        stage.centerOnScreen();
         stage.show();
     }
-
     /**
      * Aplikazioaren hasierako panela sortzen du.
      * Logoarekin eta biltegiaren atzeko irudiarekin ongietorria erakusten du.
