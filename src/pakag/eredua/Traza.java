@@ -56,7 +56,11 @@ public class Traza {
     }
 
     /**
-     * Trazaren maila kalkulatzen du ekintzaren arabera.
+     * Trazaren maila kalkulatzen du ekintzaren izenaren arabera.
+     * <p>
+     * Maila ez dago datu-basean gordeta; aplikazioan kalkulatzen da.
+     * Horri esker, Traza taula sinple mantentzen da eta interfazean
+     * INFO, WARN eta ERROR mailak erakutsi daitezke.
      *
      * @return INFO, WARN edo ERROR
      */

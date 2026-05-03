@@ -1769,6 +1769,7 @@ public class PakAGAplikazioa extends Application {
 
     /**
      * Hautatutako entrega ezabatzen du.
+     * Entrega bidean badago, ez da ezabatzen.
      */
     private void entregaEzabatu() {
         Entrega hautatua = entregaTaula.getSelectionModel().getSelectedItem();
@@ -1778,20 +1779,32 @@ public class PakAGAplikazioa extends Application {
             return;
         }
 
+        if ("bidean".equalsIgnoreCase(hautatua.getEgoera())) {
+            mezua(
+                    "Abisua",
+                    "Entrega bidean dagoenez, ezin da ezabatu.",
+                    Alert.AlertType.WARNING
+            );
+            return;
+        }
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Berrespena");
         alert.setHeaderText(null);
         alert.setContentText("Ziur zaude entrega hau ezabatu nahi duzula?");
 
         Optional<ButtonType> emaitza = alert.showAndWait();
+
         if (emaitza.isPresent() && emaitza.get() == ButtonType.OK) {
             boolean ondo = entregaDAO.ezabatu(hautatua.getIdE());
 
             if (ondo) {
+                trazaDAO.gehitu("DELETE_ENTREGA", "Entrega ezabatu da: " + hautatua.getIdE());
                 mezua("Ondo", "Entrega ondo ezabatu da.", Alert.AlertType.INFORMATION);
                 entregaTaulaKargatu();
                 entregaEremuakGarbitu();
             } else {
+                trazaDAO.gehitu("ERROR_ENTREGA", "Ezin izan da entrega ezabatu: " + hautatua.getIdE());
                 mezua("Errorea", "Ezin izan da entrega ezabatu.", Alert.AlertType.ERROR);
             }
         }

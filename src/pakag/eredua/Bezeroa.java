@@ -1,7 +1,9 @@
 package pakag.eredua;
 
 /**
- * Bezero baten eredua.
+ * Bezeroa eredua.
+ * Klase honek datu-baseko bezeroa taulako erregistro bat irudikatzen du.
+ * Bezero baten izena, abizena, telefonoa eta herria gordetzen ditu.
  */
 public class Bezeroa {
 

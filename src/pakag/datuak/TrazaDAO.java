@@ -11,12 +11,21 @@ import java.util.List;
 
 /**
  * TrazaDAO klasea sistemako trazak datu-basean kudeatzeko erabiltzen da.
- * Trazek aplikazioan egindako ekintza garrantzitsuak gordetzen dituzte.
+ *
+ * Trazek aplikazioan egindako ekintza garrantzitsuak gordetzen dituzte:
+ * alta berriak, aldaketak, ezabaketak, abisuak eta erroreak.
+ *
+ * Klase hau Traza taularekin komunikatzen da, eta aplikazio nagusiak
+ * ekintza bat erregistratu behar duenean metodo honetara deitzen du.
  */
 public class TrazaDAO {
 
     /**
      * Traza berri bat datu-basean sartzen du.
+     *
+     * NOW() erabiltzen da data eta ordua automatikoki gordetzeko.
+     * Horrela, aplikazioan egindako ekintza bakoitza noiz gertatu den
+     * erregistratuta geratzen da.
      *
      * @param ekintza egindako ekintzaren izena
      * @param deskribapena ekintzaren azalpena
@@ -28,7 +37,10 @@ public class TrazaDAO {
         try (Connection con = Konexioa.lortuKonexioa();
              PreparedStatement pst = con.prepareStatement(sql)) {
 
+            // Ekintzaren izena gordetzen da, adibidez: CREATE_PAKETEA edo ERROR_ENTREGA.
             pst.setString(1, ekintza);
+
+            // Ekintzaren azalpen zehatzagoa gordetzen da.
             pst.setString(2, deskribapena);
 
             return pst.executeUpdate() > 0;
@@ -42,6 +54,9 @@ public class TrazaDAO {
     /**
      * Datu-baseko traza guztiak lortzen ditu.
      *
+     * Trazak data eta orduaren arabera ordenatzen dira,
+     * azken ekintzak lehenengo agertzeko.
+     *
      * @return trazen zerrenda
      */
     public List<Traza> lortuGuztiak() {
@@ -52,10 +67,19 @@ public class TrazaDAO {
              PreparedStatement pst = con.prepareStatement(sql);
              ResultSet rs = pst.executeQuery()) {
 
+            /*
+             * Kontsultaren emaitza errenkadaz errenkada irakurtzen da.
+             * Errenkada bakoitzarekin Traza objektu bat sortzen da.
+             */
             while (rs.next()) {
                 Traza t = new Traza();
+
                 t.setIdT(rs.getInt("ID_T"));
 
+                /*
+                 * MySQL-ko DATETIME balioa Java-ko LocalDateTime bihurtzen da,
+                 * aplikazioan errazago erabiltzeko.
+                 */
                 Timestamp ts = rs.getTimestamp("data_ordua");
                 if (ts != null) {
                     t.setDataHora(ts.toLocalDateTime());
@@ -76,6 +100,8 @@ public class TrazaDAO {
 
     /**
      * Datu-baseko traza guztien kopurua kalkulatzen du.
+     *
+     * Metodo hau erabilgarria da estatistikak edo laburpenak egiteko.
      *
      * @return traza kopurua
      */

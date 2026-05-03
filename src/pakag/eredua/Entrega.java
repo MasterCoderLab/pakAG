@@ -3,7 +3,13 @@ package pakag.eredua;
 import java.time.LocalDate;
 
 /**
- * Entrega baten eredua.
+ * Entrega eredua.
+ * <p>
+ * Klase honek datu-baseko Entrega taulako erregistro bat irudikatzen du.
+ * Entrega batek data, egoera, mezua eta aukeran banatzaile bat izan ditzake.
+ * <p>
+ * paketeId atributua ez dator zuzenean Entrega taulatik;
+ * LEFT JOIN bidez lortzen da, entregari lotutako paketea interfazean erakusteko.
  */
 public class Entrega {
 

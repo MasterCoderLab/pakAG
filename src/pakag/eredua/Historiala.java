@@ -2,17 +2,48 @@ package pakag.eredua;
 
 import java.time.LocalDate;
 
+/**
+ * Historiala eredua.
+ *
+ * Klase honek aplikazioan historiala erakusteko erabiltzen den objektua irudikatzen du.
+ * Ez dator datu-baseko Historiala taula fisiko batetik, baizik eta Paketea eta Entrega
+ * taulen arteko JOIN baten emaitzatik.
+ *
+ * Historiala atalean pakete baten entrega-data, pakete ID-a, entrega ID-a,
+ * bezeroa, banatzailea, egoera eta helmuga-datuak erakusten dira.
+ */
 public class Historiala {
 
+    // Entregaren data.
     private LocalDate entregaDate;
+
+    // Historialean agertzen den paketearen identifikatzailea.
     private String paketeId;
+
+    // Paketeari lotutako entregaren identifikatzailea.
     private Integer entregaId;
+
+    // Paketearen bezeroaren identifikatzailea. Null izan daiteke paketeak bezero loturarik ez badu.
     private Integer bezeroId;
+
+    // Entregari esleitutako banatzailearen identifikatzailea. Null izan daiteke oraindik esleitu gabe badago.
     private Integer banatzaileaId;
+
+    // Entregaren egoera: pendiente, esleituta, bidean, entregatuta edo entregatu gabe.
     private String egoera;
+
+    // Paketearen helmugako herria.
     private String herria;
+
+    // Paketearen helmugako helbidea.
     private String helbidea;
 
+    /**
+     * Eraikitzaile hutsa.
+     *
+     * DAO klaseak objektua sortu eta ondoren setter metodoen bidez
+     * datuak betetzeko erabiltzen da.
+     */
     public Historiala() {
     }
 

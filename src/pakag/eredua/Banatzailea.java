@@ -1,5 +1,9 @@
 package pakag.eredua;
 
+/**
+ * Banatzailea eredua.
+ * Klase honek datu-baseko banatzailea taulako erregistro bat irudikatzen du.
+ */
 public class Banatzailea {
 
     private int idBa;

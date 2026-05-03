@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BezeroaDAO klasea bezeroen datuak datu-basean kudeatzeko erabiltzen da.
+ * BezeroaDAO klaseak bezeroa taularekin lan egiten du.
+ * Aplikazio nagusiak bezeroen datuak kudeatu behar dituenean,
+ * klase honetako metodoak erabiltzen ditu SQL kontsultak egiteko.
  */
 public class BezeroaDAO {
 

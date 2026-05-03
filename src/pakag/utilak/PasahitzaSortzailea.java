@@ -20,7 +20,13 @@ public class PasahitzaSortzailea {
     private static final SecureRandom random = new SecureRandom();
 
     /**
-     * Pasahitz berri bat sortzen du.
+     * 10 karaktereko pasahitz segurua sortzen du.
+     * <p>
+     * Pasahitzak gutxienez karaktere mota hauek izango ditu:
+     * letra larria, letra xehea, zenbakia eta karaktere berezia.
+     * <p>
+     * Amaieran karaktereak nahasten dira, pasahitzaren egitura
+     * aurreikusgarria ez izateko.
      *
      * @return sortutako pasahitza
      */

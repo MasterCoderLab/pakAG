@@ -11,13 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * PaketeaDAO klasea datu-basearekin komunikatzeko erabiltzen da.
- * Hemen paketeen CRUD eragiketak eta kontsulta nagusiak egiten dira.
+ * PaketeaDAO klasea datu-baseko Paketea taularekin komunikatzeko erabiltzen da.
+ *
+ * Klase honetan paketeen CRUD eragiketak egiten dira:
+ * - Gehitu
+ * - Lortu
+ * - Editatu
+ * - Ezabatu
+ *
+ * Gainera, pakete bat entrega batekin lotzeko metodoa dauka.
  */
 public class PaketeaDAO {
 
     /**
      * Pakete berri bat datu-basean sartzen du eta sortutako ID-a itzultzen du.
+     *
+     * ID_P eremua datu-basean INT AUTO_INCREMENT da, beraz aplikazioak
+     * ez du eskuz ID-rik sartzen. MySQL-k automatikoki sortzen du.
+     *
+     * Paketea hasieran entregarako loturarik gabe sor daiteke.
+     * Ondoren aplikazio nagusiak entrega automatikoa sortzen du eta
+     * entregaEsleitu() metodoaren bidez paketearekin lotzen du.
      *
      * @param paketea gehitu nahi den paketea
      * @return sortutako paketearen ID-a; errorea bada, -1
@@ -29,18 +43,29 @@ public class PaketeaDAO {
         try (Connection con = Konexioa.lortuKonexioa();
              PreparedStatement pst = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
+            // Paketearen oinarrizko datuak gordetzen dira.
             pst.setString(1, paketea.getPisua());
             pst.setString(2, paketea.getEdukia());
             pst.setString(3, paketea.getHerria());
             pst.setString(4, paketea.getHelbidea());
             pst.setDate(5, Date.valueOf(paketea.getSarreraData()));
 
+            /*
+             * Bezeroa_ID_Be NULL izan daiteke.
+             * Horrek aukera ematen du pakete bat bezeroarekin lotu gabe gordetzeko,
+             * nahiz eta normalean bezero batekin lotuta egongo den.
+             */
             if (paketea.getBezeroaIdBe() == null) {
                 pst.setNull(6, java.sql.Types.INTEGER);
             } else {
                 pst.setInt(6, paketea.getBezeroaIdBe());
             }
 
+            /*
+             * Entrega_ID_E hasieran NULL izan daiteke.
+             * Paketea sortu ondoren, aplikazioak entrega automatikoa sortzen du
+             * eta gero paketearekin lotzen du.
+             */
             if (paketea.getEntregaIdE() == null) {
                 pst.setNull(7, java.sql.Types.INTEGER);
             } else {
@@ -49,6 +74,10 @@ public class PaketeaDAO {
 
             int filas = pst.executeUpdate();
 
+            /*
+             * INSERT ondo egin bada, datu-baseak automatikoki sortutako
+             * ID_P balioa jasotzen da.
+             */
             if (filas > 0) {
                 try (ResultSet rs = pst.getGeneratedKeys()) {
                     if (rs.next()) {
@@ -91,6 +120,10 @@ public class PaketeaDAO {
     /**
      * Dagoen pakete baten datuak eguneratzen ditu.
      *
+     * ID_P ez da aldatzen, datu-baseko identifikatzaile nagusia delako.
+     * Gainerako datuak eguneratzen dira: pisua, edukia, helmuga, data,
+     * bezeroa eta entrega lotura.
+     *
      * @param paketea eguneratu nahi den paketea
      * @return true ondo joan bada, false bestela
      */
@@ -119,6 +152,10 @@ public class PaketeaDAO {
                 pst.setInt(7, paketea.getEntregaIdE());
             }
 
+            /*
+             * ID_P datu-basean INT da, baina modeloko getter-ak String itzultzen du.
+             * PreparedStatement-ek balioa bidaltzen du eta MySQL-k zenbaki gisa interpretatzen du.
+             */
             pst.setString(8, paketea.getIdP());
 
             return pst.executeUpdate() > 0;
@@ -131,6 +168,9 @@ public class PaketeaDAO {
 
     /**
      * Pakete bat datu-basetik ezabatzen du.
+     *
+     * ID_P datu-baseko identifikatzaile nagusia da.
+     * Ezabatzean, ID horri dagokion paketea kentzen da.
      *
      * @param idP ezabatu nahi den paketearen identifikatzailea
      * @return true ondo joan bada, false bestela
@@ -152,6 +192,9 @@ public class PaketeaDAO {
 
     /**
      * Oraindik entregarik ez duten paketeak lortzen ditu.
+     *
+     * Metodo hau erabilgarria da jakiteko zein paketek ez duten oraindik
+     * entrega loturarik.
      *
      * @return esleitu gabeko paketeen zerrenda
      */
@@ -177,6 +220,11 @@ public class PaketeaDAO {
     /**
      * Pakete bati entrega ID bat esleitzen dio.
      *
+     * Metodo hau entrega automatikoa sortu ondoren erabiltzen da.
+     * Paketea taulako Entrega_ID_E eremuan sortutako entregaren ID-a gordetzen du.
+     *
+     * Horrela, paketea eta entrega 1:1 erlazioan lotuta geratzen dira.
+     *
      * @param paketeId paketearen ID-a
      * @param entregaId entregaren ID-a
      * @return true ondo joan bada, false bestela
@@ -188,6 +236,12 @@ public class PaketeaDAO {
              PreparedStatement pst = con.prepareStatement(sql)) {
 
             pst.setInt(1, entregaId);
+
+            /*
+             * ID_P datu-basean INT AUTO_INCREMENT da.
+             * Hemen String moduan jasotzen da interfazeko eremuetatik datorrelako,
+             * baina MySQL-k balioa zenbaki gisa erabiltzen du.
+             */
             pst.setString(2, paketeId);
 
             return pst.executeUpdate() > 0;
@@ -201,20 +255,32 @@ public class PaketeaDAO {
     /**
      * ResultSet-eko errenkada batetik Paketea objektu bat sortzen du.
      *
-     * @param rs ResultSet
+     * Metodo hau erabiltzen da SQL kontsulten emaitzak Java objektuetara
+     * pasatzeko eta kodea ez errepikatzeko.
+     *
+     * @param rs SQL kontsultaren emaitza
      * @return Paketea objektua
-     * @throws Exception errorea gertatuz gero
+     * @throws Exception ResultSet irakurtzean errorea gertatzen bada
      */
     private Paketea mapPaketea(ResultSet rs) throws Exception {
         Paketea p = new Paketea();
 
+        /*
+         * ID_P datu-basean INT da, baina aplikazioan String bezala gordetzen da
+         * JavaFX testu-eremuekin errazago lan egiteko.
+         */
         p.setIdP(rs.getString("ID_P"));
+
         p.setPisua(rs.getString("pisua"));
         p.setEdukia(rs.getString("edukia"));
         p.setHerria(rs.getString("herria"));
         p.setHelbidea(rs.getString("helbidea"));
         p.setSarreraData(rs.getDate("sarrera_data").toLocalDate());
 
+        /*
+         * Bezeroa_ID_Be NULL izan daiteke.
+         * getInt-ek 0 itzul dezake NULL denean; horregatik rs.wasNull() erabiltzen da.
+         */
         int bezeroId = rs.getInt("Bezeroa_ID_Be");
         if (rs.wasNull()) {
             p.setBezeroaIdBe(null);
@@ -222,6 +288,9 @@ public class PaketeaDAO {
             p.setBezeroaIdBe(bezeroId);
         }
 
+        /*
+         * Entrega_ID_E ere NULL izan daiteke, paketeak oraindik entrega loturarik ez badu.
+         */
         int entregaId = rs.getInt("Entrega_ID_E");
         if (rs.wasNull()) {
             p.setEntregaIdE(null);
@@ -234,6 +303,8 @@ public class PaketeaDAO {
 
     /**
      * Datu-baseko pakete guztien kopurua kalkulatzen du.
+     *
+     * Metodo hau hasierako dashboard-ean erabiltzen da.
      *
      * @return pakete kopurua
      */
